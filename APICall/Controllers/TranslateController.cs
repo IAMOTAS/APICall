@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace APICall.Controllers
@@ -37,7 +39,14 @@ namespace APICall.Controllers
             {
                 // Reading the response content
                 string responseContent = await response.Content.ReadAsStringAsync();
-                ViewBag.TranslatedText = responseContent;
+
+                // Deserialize the JSON response
+                var responseObject = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(responseContent);
+
+                // Extract the translated text
+                string translatedText = responseObject["contents"]["translated"];
+
+                ViewBag.TranslatedText = translatedText;
             }
             else
             {

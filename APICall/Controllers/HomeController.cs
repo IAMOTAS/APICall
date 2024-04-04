@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,12 +41,14 @@ namespace APICall.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     // Reading the response content
-                    string responseContent = await response.Content.ReadAsStringAsync();
+                    using var responseStream = await response.Content.ReadAsStreamAsync();
+                    using var jsonDocument = await JsonDocument.ParseAsync(responseStream);
 
-                    // Extracting the translated text from the response content
-                    // Here you may need to deserialize the JSON response and extract the translated text property
-                    // For simplicity, let's assume the translated text is directly available in the response content
-                    ViewBag.TranslatedText = responseContent;
+                    // Extract the translated text
+                    var responseObject = jsonDocument.RootElement;
+                    string translatedText = responseObject.GetProperty("contents").GetProperty("translated").GetString();
+
+                    ViewBag.TranslatedText = translatedText;
                 }
                 else
                 {
