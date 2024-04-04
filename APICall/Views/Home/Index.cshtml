@@ -21,47 +21,7 @@
     }
 </style>
 
-<!-- Include jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-<!-- Include DataTables CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-
-<!-- Include DataTables JavaScript -->
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-
-<!-- HTML table to display data -->
-<table id="dataTable" class="display">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Value</th>
-            <!-- Add more columns as needed -->
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
-
-<!-- Initialize DataTables -->
-<script>
-    $(document).ready(function () {
-        $('#dataTable').DataTable({
-            ajax: {
-                url: '/Data/GetData', // Controller action URL
-                type: 'GET',
-                dataType: 'json',
-                dataSrc: ''
-            },
-            columns: [
-                { data: 'Id' },
-                { data: 'Name' },
-                { data: 'Value' }
-                // Add more columns as needed
-            ]
-        });
-    });
-</script>
 
 <!-- Translation form -->
 <div class="translation-form">
