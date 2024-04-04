@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Translation\" />
+    <Folder Include="Views\Translate\" />
   </ItemGroup>
 
 </Project>
