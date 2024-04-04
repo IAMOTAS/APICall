@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Microsoft.EntityFrameworkCore; // Add this namespace
 
 public class Startup
 {
@@ -17,6 +18,10 @@ public class Startup
     {
         // Add controllers and related services
         services.AddControllersWithViews();
+
+        // Add DbContext for Entity Framework Core
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
         // Add other services as needed...
     }
