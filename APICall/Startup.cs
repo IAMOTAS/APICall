@@ -1,4 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 public class Startup
 {
@@ -12,16 +19,15 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        // Add logging services
-        services.AddLogging(loggingBuilder =>
-        {
-            loggingBuilder.AddConsole(); // Add console logging
-            loggingBuilder.AddDebug(); // Add debug logging
-        });
-
         // Add other services as needed...
-
         services.AddControllersWithViews();
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void ConfigureContainer(ContainerBuilder builder)
+    {
+        // Register Autofac modules
+        builder.RegisterModule(new AutofacModule());
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +47,13 @@ public class Startup
 
         // Example of logging a message in the Configure method
         logger.LogInformation("Application started.");
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
         {
